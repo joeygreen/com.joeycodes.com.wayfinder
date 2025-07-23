@@ -1,9 +1,16 @@
-class ProductRequest:
-    def __init__(self, product_id, product_description_string):
-        self.url = f"https://www.disneystore.com/{product_description_string}-{product_id}.html"
-        self.css_selector = ".product-oos-info"
-        self.product_id = product_id
-        self.product_description_string = product_description_string
+from pydantic import BaseModel, field_validator, computed_field
 
-    def __repr__(self):
-        return f"ProductRequest(product_id={self.product_id}, quantity={self.quantity}, request_date={self.request_date})"
+class ProductRequest(BaseModel):
+    product_id: str
+    product_description_string: str
+
+    @computed_field
+    @property
+    def url(self) -> str:
+        """Example Usage of properties: Constructs the product URL based on the product ID and description. This is totally unnecessary as you could just send the url in directly."""
+        return f"https://www.disneystore.com/{self.product_description_string}-{self.product_id}.html"
+
+    @computed_field
+    @property
+    def css_selector(self) -> str:
+        return ".product-oos-info"
