@@ -1,14 +1,19 @@
 from pydantic import BaseModel, computed_field
+from typing import Optional
 
 class ProductRequest(BaseModel):
-    product_id: str
-    product_description_string: str
+    product_id: Optional[str] = None
+    product_description_string: Optional[str] = None
+    url: Optional[str] = None
 
     @computed_field
     @property
-    def url(self) -> str:
-        """Example Usage of properties: Constructs the product URL based on the product ID and description. This is totally unnecessary as you could just send the url in directly."""
-        return f"https://www.disneystore.com/{self.product_description_string}-{self.product_id}.html"
+    def computed_url(self) -> str:
+        if self.url:
+            return self.url
+        if self.product_id and self.product_description_string:
+            return f"https://www.disneystore.com/{self.product_description_string}-{self.product_id}.html"
+        raise ValueError("Insufficient data to compute URL.")
 
     @computed_field
     @property
