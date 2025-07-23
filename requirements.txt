@@ -3,3 +3,7 @@ uvicorn[standard]
 pydantic>=2.6
 requests
 beautifulsoup4
+asyncio
+streamlit
+httpx
+rich
