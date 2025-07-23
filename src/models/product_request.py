@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator, computed_field
+from pydantic import BaseModel, computed_field
 
 class ProductRequest(BaseModel):
     product_id: str
